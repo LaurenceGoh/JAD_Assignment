@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+
+.background {
+	background-image: url("../img/index.png");
+    background-position: top center;
+}
+
+.userInput {
+	position: relative;
+ 	background: transparent;
+ 	border: 2px solid white;
+ 	border-radius: 20px;
+ 	backdrop-filter: blur(10px);
+ 	display:flex;
+ 	justify-content:center;
+ 	align-items:center;
+ 	
+}
