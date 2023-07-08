@@ -1,0 +1,8 @@
+@charset "UTF-8";
+
+.content {
+	max-width: 960px;
+}
+textarea {
+	 resize: none;
+}
