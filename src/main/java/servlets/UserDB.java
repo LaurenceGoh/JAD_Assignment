@@ -81,7 +81,7 @@ public class UserDB extends HttpServlet {
 						try {
 							// Check for email duplication
 							Class.forName("com.mysql.jdbc.Driver");
-							String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
+							String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
 							Connection conn = DriverManager.getConnection(connURL);
 							String sqlStr = "SELECT * FROM jad_bookstore_db.user WHERE email = ?";
 							PreparedStatement pstmt = conn.prepareStatement(sqlStr);
@@ -117,7 +117,7 @@ public class UserDB extends HttpServlet {
 								try {
 									// Add user account
 									Class.forName("com.mysql.jdbc.Driver");
-									String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
+									String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
 									Connection conn = DriverManager.getConnection(connURL);
 									String sqlStr = "INSERT INTO jad_bookstore_db.user(name, password, birthday, email, address, role) values(?, ?, ?, ?, ?, ?)";
 									PreparedStatement pstmt = conn.prepareStatement(sqlStr);
@@ -171,7 +171,7 @@ public class UserDB extends HttpServlet {
 				try {
 					// SQL update user details
 					Class.forName("com.mysql.jdbc.Driver");
-					String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
+					String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
 					Connection conn = DriverManager.getConnection(connURL);
 					String sqlStr = "UPDATE user SET name = ?, password = ?, birthday = ?, email = ?, address = ?, role = ? "
 							+ " WHERE iduser = ?";
@@ -225,7 +225,7 @@ public class UserDB extends HttpServlet {
 				try {
 					// SQL delete user
 					Class.forName("com.mysql.jdbc.Driver");
-					String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
+					String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
 					Connection conn = DriverManager.getConnection(connURL);
 					String sqlStr = "DELETE FROM jad_bookstore_db.user WHERE iduser = ?";
 					PreparedStatement pstmt = conn.prepareStatement(sqlStr);

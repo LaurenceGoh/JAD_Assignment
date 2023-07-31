@@ -119,6 +119,10 @@
 		else if (message != null && message.equals("userEditSuccess")) {
 			out.print("<br><h2>User successfully edited!</h2>");
 		}
+    	
+		else if (message != null && message.equals("picEditError")) {
+			out.print("Error.. <br><h2>Please try again!</h2>");
+		}
 	 %>
     </div>
   </div>

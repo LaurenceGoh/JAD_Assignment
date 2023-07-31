@@ -40,60 +40,7 @@
 		response.sendRedirect("login.jsp");
 	}
 	
-
-	// Get book variable
-	String bookStr = request.getParameter("bookId");
-	String bookID = "", title = "", category = "", image = "", author = "", releaseDate = "", publisher = "", description = "", isbnStr = "",
-	results = "", rating = "";	
-	double price = 0.0;
-	int quantity = 0;
-	
-	//Set book edit function
-	session.setAttribute("bookFunction", "editPic");
-	
-	try {
-		
-	// Step 1: Load JDBC Driver
-			Class.forName("com.mysql.jdbc.Driver");
-	
-			// Step 2: Define Connection URL
-			String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
-	
-			// Step 3: Establish connection to URL
-			Connection conn = DriverManager.getConnection(connURL);
-	
-			// Step 5: Execute SQL Command
-			String sqlStr = "SELECT * FROM jad_bookstore_db.books WHERE idbooks = ?";
-			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
-			pstmt.setString(1,bookStr);
-	
-			ResultSet rs = pstmt.executeQuery();
-	
-			if (rs.next()) {
-				bookID = rs.getString("idbooks");
-				title = rs.getString("title");
-				category = rs.getString("category");
-				image = rs.getString("image");
-				author = rs.getString("author");
-				releaseDate = rs.getString("releaseDate");
-				isbnStr = rs.getString("isbnNumber");
-				publisher = rs.getString("publisher");
-				description = rs.getString("description");
-				quantity = rs.getInt("quantity");
-				rating = rs.getString("rating");
-				price = rs.getDouble("price");
-			}
-	
-			else {
-				// do nothing
-				System.out.println("Record not found!");
-			}
-	
-			conn.close();
-			} catch (Exception e){
-				out.println(e);
-			}
-	
+	String bookID = session.getAttribute("bookID").toString();
 	String navString = "";
 	
 	if (loginStatus.equals("true")) {
@@ -145,15 +92,8 @@
         <form class="needs-validation" action="<%=request.getContextPath()%>/BookPicUpload" method="POST" enctype="multipart/form-data">
           <div class="row g-3">
             <div class="col-sm-6">
-              <label for="firstName" class="form-label">Title</label>
-              <input type="text" class="form-control" name="title" placeholder="" value="<%= title %>" readonly>
-              <div class="invalid-feedback">
-              </div>
-            </div>
-
-            <div class="col-sm-6">
               <label for="lastName" class="form-label">Book Picture</label>
-              <input type="file" class="form-control" name="file">
+              <input type="file" class="form-control" name="bookPic">
             </div>          
             
             <input type="text" class="form-control" name="bookID" placeholder="" value="<%= bookID %>" hidden>
