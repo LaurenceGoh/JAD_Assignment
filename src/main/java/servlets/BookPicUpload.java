@@ -50,8 +50,8 @@ public class BookPicUpload extends HttpServlet {
 			fileName = filePart.getSubmittedFileName();
 
 			for (Part part : request.getParts()) {
-//				part.write(getServletContext().getRealPath("") + "\\ca2\\img\\" + fileName);
-				part.write("C:\\Users\\ngzhi\\git\\JAD_Assignment\\src\\main\\webapp\\ca2\\img\\" + fileName);
+				part.write(getServletContext().getRealPath("") + "\\ca2\\img\\" + fileName);
+//				part.write("C:\\Users\\ngzhi\\git\\JAD_Assignment\\src\\main\\webapp\\ca2\\img\\" + fileName);
 			}
 
 			isUploaded = true;
