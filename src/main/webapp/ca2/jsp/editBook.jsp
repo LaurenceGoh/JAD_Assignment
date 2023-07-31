@@ -230,7 +230,9 @@
             </div>
             
             <input type="text" class="form-control" name="bookID" placeholder="" value="<%= bookID %>" hidden>
-
+ 			<%
+            	session.setAttribute("bookID", bookID);
+            %>
           <hr class="my-4">
 
 		  <div class="container">
