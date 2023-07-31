@@ -38,8 +38,9 @@
 	else {
 		navString = "Public User";
 	}
-	%>
+	
 
+	%>
 	<!-- Navbar -->
 	<nav class="navbar navbar-expand bg-black">
 		<div class="container-fluid">
@@ -87,6 +88,8 @@
 	<h1>Payment Details</h1>
 	<h2>Please confirm your details before paying.</h2>
 	<form action="<%=request.getContextPath()%>/ExecutePayment" method="POST">
+	<input type="hidden" name="username" value="<%=name%>" />
+	
 	<div class="col-md-5 col-lg-4">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-primary">Your cart</span>

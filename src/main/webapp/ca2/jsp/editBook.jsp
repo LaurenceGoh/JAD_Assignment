@@ -233,7 +233,6 @@
             <%
             	session.setAttribute("bookID", bookID);
             %>
-
           <hr class="my-4">
 
 		  <div class="container">
