@@ -245,6 +245,24 @@
       </div>
     </div>
   </div>	
+  
+<div class="container px-4 py-5" id="hanging-icons">
+	<h2 class="pb-2 border-bottom">Sales database</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+    	<div class="col d-flex align-items-start">
+        <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+          <img src="../img/sales.jpg" width="40px" height="40px">
+        </div>
+        <div>
+          <h3 class="fs-2 text-body-emphasis">View</h3>
+          <p>View books bought by customer.</p>
+          <a href="salesBookSelect.jsp" class="btn btn-primary">
+            View
+          </a>
+        </div>
+      </div>
+</div>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
