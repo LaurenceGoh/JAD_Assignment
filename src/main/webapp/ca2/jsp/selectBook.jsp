@@ -71,6 +71,7 @@
 				+ "<small class='text-body-secondary'>Release Date: " + releaseDate + "</small>" + " </div>"
 				+ "</div>" + "</div></div>";
 	}
+	conn.close(); 
 %>
 
 

@@ -62,6 +62,7 @@
 				+ "<small class='text-body-secondary'>Release Date: " + releaseDate + "</small>" + " </div>"
 				+ "</div>" + "</div></div>";
 	}
+	conn.close(); 
 %>
 
 
@@ -134,12 +135,12 @@
 	</div>
 
 <div class="container my-3 bg-light">
-        <div class="col-md-12 text-center">
-            <form action="admin.jsp" method="POST">
-            	<button type="submit" class="btn btn-primary">Return to Admin menu</button>
-        	</form>
-        </div>
+    <div class="col-md-12 text-center">
+        <form action="admin.jsp" method="POST">
+            <button type="submit" class="btn btn-primary">Return to Admin menu</button>
+        </form>
     </div>
+</div>
 </body>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

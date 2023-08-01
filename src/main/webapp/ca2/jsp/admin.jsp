@@ -202,6 +202,19 @@
           </a>
         </div>
       </div>
+      
+      <div class="col d-flex align-items-start">
+        <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+          <img src="../img/blankprofile.png" width="40px" height="40px">
+        </div>
+        <div>
+          <h3 class="fs-2 text-body-emphasis">Search user</h3>
+          <p>Search a user from the database.</p>
+          <a href="searchUser.jsp" class="btn btn-primary">
+            Search
+          </a>
+        </div>
+      </div>
     
     
       <div class="col d-flex align-items-start">
@@ -249,13 +262,26 @@
 <div class="container px-4 py-5" id="hanging-icons">
 	<h2 class="pb-2 border-bottom">Sales database</h2>
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+    <div class="col d-flex align-items-start">
+        <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+          <img src="../img/sales.jpg" width="40px" height="40px">
+        </div>
+        <div>
+          <h3 class="fs-2 text-body-emphasis">Overall Stats</h3>
+          <p>Overall statistics.</p>
+          <a href="overallStats.jsp" class="btn btn-primary">
+            View
+          </a>
+        </div>
+      </div>
+    
     	<div class="col d-flex align-items-start">
         <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
           <img src="../img/sales.jpg" width="40px" height="40px">
         </div>
         <div>
-          <h3 class="fs-2 text-body-emphasis">View</h3>
-          <p>View books bought by customer.</p>
+          <h3 class="fs-2 text-body-emphasis">Book Stats</h3>
+          <p>Statistics on individual books.</p>
           <a href="salesBookSelect.jsp" class="btn btn-primary">
             View
           </a>

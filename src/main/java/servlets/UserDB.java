@@ -244,6 +244,12 @@ public class UserDB extends HttpServlet {
 				}
 			}
 		}
+		
+		// user search function
+		else if (userFunction.equals("search")) {
+			String toSearch = request.getParameter("userSearch");
+			String searchBy = "";
+		}
 	}
 
 	/**
