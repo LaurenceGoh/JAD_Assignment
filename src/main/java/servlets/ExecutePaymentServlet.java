@@ -41,6 +41,7 @@ public class ExecutePaymentServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		
 		int bookId = 0, userId = 0, orderId = 0;
+		double price=0;
 		try {
 			PaymentServices paymentServices = new PaymentServices();
 			Payment payment = paymentServices.executePayment(paymentId, payerId);
@@ -60,18 +61,20 @@ public class ExecutePaymentServlet extends HttpServlet {
 				Connection conn = DriverManager.getConnection(connURL);
 				
 //				Retrieving the book Id purchased
-				String findBookId = "SELECT idbooks FROM jad_bookstore_db.books where title = ?";
+				String findBookId = "SELECT idbooks,price FROM jad_bookstore_db.books where title = ?";
 				PreparedStatement pstmt = conn.prepareStatement(findBookId);
 				pstmt.setString(1,bookName);
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next()) {
 					bookId = rs.getInt("idbooks");
+					price = rs.getDouble("price");
 				}
 				
 //				Inserting book to orderlist table
-				String insertBookIdToList = "INSERT INTO jad_bookstore_db.orderlist (idbooks) VALUES (?)";
+				String insertBookIdToList = "INSERT INTO jad_bookstore_db.orderlist (idbooks,price) VALUES (?,?)";
 				pstmt = conn.prepareStatement(insertBookIdToList, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setInt(1, bookId);
+				pstmt.setDouble(2, price);
 				int updatedRows = pstmt.executeUpdate();
 				System.out.println("Number of rows added to orderlist table : " + updatedRows);
 				
@@ -102,7 +105,7 @@ public class ExecutePaymentServlet extends HttpServlet {
 				if (rs.next()) {
 					System.out.println("New order table with Id of " + rs.getInt(1));
 				}
-				
+			 	
 			}
 			
 			request.setAttribute("payer",payerInfo);

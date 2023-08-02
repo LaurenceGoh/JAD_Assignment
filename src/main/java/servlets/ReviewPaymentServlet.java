@@ -40,6 +40,7 @@ public class ReviewPaymentServlet extends HttpServlet {
 			Payment payment = paymentServices.getPaymentDetails(paymentID);
 			
 			PayerInfo payerInfo = payment.getPayer().getPayerInfo();
+			System.out.println(payment.getTransactions());
 			Transaction transaction = payment.getTransactions().get(0);
 			ShippingAddress shippingAddress = transaction.getItemList().getShippingAddress();
 			

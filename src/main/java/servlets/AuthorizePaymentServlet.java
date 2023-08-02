@@ -40,17 +40,18 @@ public class AuthorizePaymentServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		OrderDetail order = null;
 		@SuppressWarnings("unchecked")
-		
+		ArrayList<OrderDetail> books = new ArrayList<OrderDetail>();
 		ArrayList<Book> orderedItems = (ArrayList<Book>) session.getAttribute("orderedItems");
 		for (Book bookName : orderedItems) {
 			double bookPrice = bookName.getPrice();
 			String bookTitle = bookName.getTitle();
 			order = new OrderDetail(bookTitle,Double.toString(bookPrice),Double.toString(bookPrice*0.10),Double.toString(bookPrice*0.08),String.format("%.2f",bookPrice*1.18));
+			books.add(order);
 		}
 		
 		try {
 			 PaymentServices paymentServices = new PaymentServices();
-	         String approvalLink = paymentServices.authorizePayment(order);
+	         String approvalLink = paymentServices.authorizePayment(books);
 	         response.sendRedirect(approvalLink);
              
         } catch (PayPalRESTException ex) {
