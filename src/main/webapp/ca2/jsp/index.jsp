@@ -73,6 +73,13 @@
 								href="index.jsp">Home</a>
 						</h4>
 					</li>
+					<%
+						if (role.equals("member")) {
+							out.print("<li class=\"nav-item\">"
+							+"<a class=\"nav-link text-white\" href=\"purchaseHistory.jsp\">Purchase History</a>"
+							+"</li>");
+						}
+					%>
 					<li class="nav-item">
 						<h4>
 						<%
