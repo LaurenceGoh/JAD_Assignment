@@ -79,7 +79,7 @@
 
 	try {
 		Class.forName("com.mysql.jdbc.Driver");
-		String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
+		String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
 		Connection conn = DriverManager.getConnection(connURL);
 	 	Statement stmt = conn.createStatement();
 		String sqlStr = "SELECT * FROM jad_bookstore_db.books ORDER BY unitsSold DESC";
@@ -141,7 +141,7 @@
 	
 	try {
 		Class.forName("com.mysql.jdbc.Driver");
-		String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
+		String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
 		Connection conn2 = DriverManager.getConnection(connURL);
 	 	Statement stmt2 = conn2.createStatement();
 		String sqlStr2 = "SELECT * FROM jad_bookstore_db.books WHERE quantity = 0";

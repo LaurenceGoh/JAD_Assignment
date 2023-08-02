@@ -30,7 +30,7 @@
 	Class.forName("com.mysql.jdbc.Driver");
 	
 	// Step 2: Define Connection URL (change password)
-	String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
+	String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
 	
 	// Step 3: Establish connection to URL
 	Connection conn = DriverManager.getConnection(connURL);
