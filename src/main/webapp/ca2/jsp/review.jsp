@@ -29,6 +29,10 @@
 		loginStatus = session.getAttribute("loginStatus").toString();
 	}
 	
+	if (!role.equals("administrator") && !role.equals("owner")) {
+		response.sendRedirect("login.jsp");
+	}
+	
 	String navString = "";
 	
 	if (loginStatus.equals("true")) {

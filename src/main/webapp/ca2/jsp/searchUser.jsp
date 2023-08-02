@@ -37,6 +37,10 @@
 		loginStatus = session.getAttribute("loginStatus").toString();
 	}
 	
+	if (!role.equals("administrator") && !role.equals("owner")) {
+		response.sendRedirect("login.jsp");
+	}
+	
 	String navString = "";
 	
 	if (loginStatus.equals("true")) {
@@ -104,16 +108,16 @@
 				<h2>Welcome to Admin User Search!</h2>
 				<div class="search">
 					<i class="bi bi-search"></i>
-					<form action="<%=request.getContextPath()%>/UserDB" method="post">
+					<form action="searchUserList.jsp" method="post">
 						<input type="text" class="form-control"
 							placeholder="Search for a user here!" name="userSearch">
 						<input type="submit" name="btnSearch" value="Search" class="search button">
 						<div class="form-check form-check-inline mt-2">
-						  <input class="form-check-input" type="radio" name="radio" id="inlineRadio1" value="author" required>
+						  <input class="form-check-input" type="radio" name="radio" id="inlineRadio1" value="name" required>
 						  <label class="form-check-label" for="inlineRadio1">Search by Name</label>
 						</div>
 						<div class="form-check form-check-inline mt-2">
-						  <input class="form-check-input" type="radio" name="radio" id="inlineRadio2" value="title">
+						  <input class="form-check-input" type="radio" name="radio" id="inlineRadio2" value="address">
 						  <label class="form-check-label" for="inlineRadio2">Search by Address</label>
 						</div>
 						</div>

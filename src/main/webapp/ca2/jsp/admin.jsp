@@ -123,6 +123,10 @@
 		else if (message != null && message.equals("picEditError")) {
 			out.print("Error.. <br><h2>Please try again!</h2>");
 		}
+    	
+		else if (message != null && message.equals("userSearchError")) {
+			out.print("Error searching.. <br><h2>Please try again!</h2>");	
+		}
 	 %>
     </div>
   </div>

@@ -1,10 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>List of Users</title>
+<meta charset="ISO-8859-1">
+<title>Search user List Page</title>
+</head>
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 <link
@@ -24,10 +25,7 @@
 	String loginStatus = "false";
 	String name = "public";
 	String role = "public";
-	String names = "", email = "", birthday="", address = "", roles = "", sqlResults = "";
-	String navString = "";
-
-	try {
+	
 	if (session.getAttribute("Name") != null && session.getAttribute("Role") != null && session.getAttribute("loginStatus") != null) {
 		name = session.getAttribute("Name").toString();
 		role = session.getAttribute("Role").toString();
@@ -38,44 +36,60 @@
 		response.sendRedirect("login.jsp");
 	}
 	
-	// Step 1
-	Class.forName("com.mysql.jdbc.Driver");
+	String navString = "";
 	
-	// Step 2: Define Connection URL (change password)
-	String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
-	
-	// Step 3: Establish connection to URL
-	Connection conn = DriverManager.getConnection(connURL);
-    Statement stmt = conn.createStatement();
-
-	String sqlStr = "SELECT * FROM jad_bookstore_db.user";
-	
-    ResultSet rs = stmt.executeQuery(sqlStr);
-
-	while (rs.next()){
-		names = rs.getString("name");
-		email = rs.getString("email");
-		birthday = rs.getString("birthday");
-		address = rs.getString("address");
-		roles = rs.getString("role");
-
-		sqlResults += "<div class='col'><div class='card shadow-sm'>"
-					+ "<img src=\"../img/blankprofile.png\" alt=\"User cover\" height=\"100%\" width=\"100%\">"
-					+ "<div class='card-body'>" + "<h4>" + names + "</h4>" + "<p class='card-text'>" + email
-					+ "</p> <p class='card-text'>" + address + "</p>" + "<div class='d-flex justify-content-between align-items-center'>"
-					+ "<small class='text-body-secondary'>Birthday: " + birthday + "</small>"
-					+ "<small class='text-body-secondary'>Role: " + roles + "</small>" + " </div>"
-					+ "</div>" + "</div></div>";
-		}
 	if (loginStatus.equals("true")) {
 		navString = name;
 	} 
-	} catch(Exception e){
-		System.out.println(e);
-		response.sendRedirect("index.jsp");
+	
+	else {
+		navString = "Public User";
 	}
 	
+	String names = "", email = "", birthday="", address = "", sqlStr = "", sqlResults = "";
+	String toSearch = (String) request.getParameter("userSearch");
+	String searchBy = (String) request.getParameter("radio");
+	
+	try {
+		// SQL search user
+		Class.forName("com.mysql.jdbc.Driver");
+		String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
+		Connection conn = DriverManager.getConnection(connURL);
+		
+		if (searchBy.equals("name")) {
+			sqlStr = "SELECT * FROM jad_bookstore_db.user WHERE name LIKE \"%" + toSearch + "%\"";
+			//sqlStr = "SELECT * FROM jad_bookstore_db.user WHERE name LIKE = ?";
+		}
+		
+		else if (searchBy.equals("address")) {
+			sqlStr = "SELECT * FROM jad_bookstore_db.user WHERE address LIKE \"%" + toSearch + "%\"";
+			//sqlStr = "SELECT * FROM jad_bookstore_db.user WHERE address LIKE %=?%";
+		}
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(sqlStr);
+		
+		while (rs.next()) {
+			names = rs.getString("name");
+			email = rs.getString("email");
+			birthday = rs.getString("birthday");
+			address = rs.getString("address");
+			
+			sqlResults += "<div class='col'><div class='card shadow-sm'>"
+					+ "<img src=\"../img/blankprofile.png\" alt=\"User cover\" height=\"100%\" width=\"100%\">"
+					+ "<div class='card-body'>" + "<h4>" + names + "</h4>" + "<p class='card-text'>" + email
+					+ "</p> <p class='card-text'>" + address + "</p>" + "<div class='d-flex justify-content-between align-items-center'>"
+					+ "<small class='text-body-secondary'>Birthday: " + birthday + "</small></div>"
+					+ "</div>" + "</div></div>";
+		}
+	}
+	
+	catch (Exception e) {
+		response.sendRedirect("ca2/jsp/admin.jsp?code=userSearchError");
+		System.out.println("Error :" + e);
+	}
 %>
+
 <!-- Navbar -->
 	<nav class="navbar navbar-expand bg-black">
 		<div class="container-fluid">
@@ -107,7 +121,7 @@
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">User Database</h1>
-        <p class="lead text-body-secondary">List of available users in the database.</p>
+        <p class="lead text-body-secondary">List of available users in the database according to your search.</p>
       </div>
     </div>
   </section>
@@ -128,9 +142,9 @@
         	</form>  
         </div>
     </div>
+</body>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
 	crossorigin="anonymous"></script>
-</body>
 </html>
