@@ -56,7 +56,7 @@
 			Class.forName("com.mysql.jdbc.Driver");
 	
 			// Step 2: Define Connection URL
-			String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
+			String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
 	
 			// Step 3: Establish connection to URL
 			Connection conn = DriverManager.getConnection(connURL);
@@ -197,7 +197,7 @@
             </div>
 	
             <div class="col-10">
-              <label for="username" class="form-label">isbnStr Number</label>
+              <label for="username" class="form-label">ISBN Number</label>
               <div class="input-group has-validation">
                 <input type="text" class="form-control" name="isbnStrNum" placeholder="" value=<%= isbnStr %> required>
               <div class="invalid-feedback">

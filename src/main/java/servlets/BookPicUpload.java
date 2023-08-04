@@ -19,8 +19,8 @@ import javax.servlet.http.Part;
  */
 @WebServlet("/BookPicUpload")
 @MultipartConfig(
-		  fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
-		  maxFileSize = 1024 * 1024 * 10,      // 10 MB
+		  fileSizeThreshold = 1024 * 1024 * 100, // 100 MB
+		  maxFileSize = 1024 * 1024 * 100,      // 100 MB
 		  maxRequestSize = 1024 * 1024 * 100   // 100 MB
 		)
 public class BookPicUpload extends HttpServlet {
@@ -49,10 +49,8 @@ public class BookPicUpload extends HttpServlet {
 			Part filePart = request.getPart("bookPic");
 			fileName = filePart.getSubmittedFileName();
 
-			for (Part part : request.getParts()) {
-//				part.write(getServletContext().getRealPath("") + "\\ca2\\img\\" + fileName);
-				part.write("C:\\Users\\ngzhi\\git\\JAD_Assignment\\src\\main\\webapp\\ca2\\img\\" + fileName);
-			}
+//			part.write(getServletContext().getRealPath("") + "\\ca2\\img\\" + fileName);
+			filePart.write("C:\\Users\\ngzhi\\git\\JAD_Assignment\\src\\main\\webapp\\ca2\\img\\" + fileName);
 
 			isUploaded = true;
 		}
@@ -64,7 +62,7 @@ public class BookPicUpload extends HttpServlet {
 		if (isUploaded) {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
-				String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
+				String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
 				Connection conn = DriverManager.getConnection(connURL);
 				String sqlStr = "UPDATE books SET image = ? WHERE idbooks = ?";
 				PreparedStatement pstmt = conn.prepareStatement(sqlStr);

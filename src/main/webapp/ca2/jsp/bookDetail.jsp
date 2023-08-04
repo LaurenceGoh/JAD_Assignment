@@ -106,7 +106,7 @@ double price = 0.0;
 		Class.forName("com.mysql.jdbc.Driver");
 
 		// Step 2: Define Connection URL
-		String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
+		String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
 
 		// Step 3: Establish connection to URL
 		Connection conn = DriverManager.getConnection(connURL);
@@ -159,7 +159,7 @@ double price = 0.0;
 		<p>Book Category: <%= category %></p>
         <p>Publisher: <%= publisher %></p>
         <p>Release Date: <%= releaseDate %></p>
-        <p>isbnStr-13 Number: <%= isbnStr %></p>
+        <p>ISBN Number: <%= isbnStr %></p>
         <p>Rating: <%= rating %>/5 Stars</p>
         <p>Price: $<%= price %></p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
