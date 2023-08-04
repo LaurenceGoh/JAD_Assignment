@@ -7,15 +7,25 @@ public class OrderDetail {
 	private double tax;
 	private double shipping;
 	private double totalPrice;
+	private int bookCounter;
 
-	public OrderDetail(String bookName,String orderPrice,String shipping, String tax, String totalPrice) {
+	public OrderDetail(String bookName,String orderPrice,String shipping, String tax, String totalPrice, int bookCounter) {
 		this.bookName = bookName;
 		this.orderPrice = Double.parseDouble(orderPrice);
 		this.shipping = Double.parseDouble(shipping);
 		this.tax = Double.parseDouble(tax);
 		this.totalPrice=Double.parseDouble(totalPrice);
+		this.bookCounter=bookCounter;
 	}
 	
+	public int getBookCounter() {
+		return bookCounter;
+	}
+
+	public void setBookCounter(int bookCounter) {
+		this.bookCounter = bookCounter;
+	}
+
 	public String getBookName() {
 		return bookName;
 	}

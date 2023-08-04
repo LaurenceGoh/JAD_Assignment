@@ -14,9 +14,9 @@ public class Book {
 	private String publisher;
 	private String description;
 	private String category;
+	private int bookCounter;
 
-	
-	public Book(String title,String category, int quantity, double rating, double price, String image, String author, String releaseDate, String isbnStrNumber, String publisher, String description) {
+	public Book(String title,String category, int quantity, double rating, double price, String image, String author, String releaseDate, String isbnStrNumber, String publisher, String description, int bookCounter) {
 		this.title = title;
 		this.category = category;
 		this.quantity = quantity;
@@ -28,8 +28,17 @@ public class Book {
 		this.isbnStrNumber = isbnStrNumber;
 		this.publisher = publisher;
 		this.description = description;
+		this.bookCounter = bookCounter;
 	}
 	
+	public int getBookCounter() {
+		return bookCounter;
+	}
+
+	public void setBookCounter(int bookCounter) {
+		this.bookCounter = bookCounter;
+	}
+
 	public String getCategory() {
 		return category;
 	}
@@ -117,6 +126,13 @@ public class Book {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+	// for bookList iteration to check whether book is contained
+	@Override
+    public boolean equals(Object o){
+        if(o instanceof Book){
+             Book p = (Book) o;
+             return this.title.equals(p.getTitle());
+        } else
+             return false;
+    }
 }

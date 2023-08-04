@@ -5,7 +5,7 @@ import com.paypal.api.payments.*;
 import com.paypal.base.rest.*;
 
 import book.Book;
-
+import user.User;
 public class PaymentServices {
 	private static final String CLIENT_ID = "AV9MqXB0H2TNDSf-hNjfQFgs316-vy1wMo6BM8DXTsqWECEBY24mvFX5L3Er34CrW9jMQVCuK7UjTZ36";
 	private static final String CLIENT_SECRET = "EHVACwZfBNVSj-14qfoUsHb01a0TSMk_P5uSoTk04xbmcKDie2Lnad87IJGD7G3riGttmVysnKljKwDf";
@@ -14,65 +14,11 @@ public class PaymentServices {
 	public PaymentServices() {
 		
 	}
-	//Single order
-//	public String authorizePayment(OrderDetail order) throws PayPalRESTException {
-//		
-//		Payer payer = getPayerInformation();
-//        RedirectUrls redirectUrls = getRedirectUrls();
-//        List<Transaction> listTransaction = getTransactionInformation(order);
-//         
-//        Payment requestPayment = new Payment();
-//        requestPayment.setTransactions(listTransaction);
-//        requestPayment.setRedirectUrls(redirectUrls);
-//        requestPayment.setPayer(payer);
-//        requestPayment.setIntent("authorize");
-//        
-//        System.out.println(requestPayment);
-//        APIContext apiContext = new APIContext(CLIENT_ID, CLIENT_SECRET, MODE);
-//        Payment approvedPayment = requestPayment.create(apiContext);
-//        return getApprovalLink(approvedPayment);
-//	}
-	// for 1 singular order
-//	private List<Transaction> getTransactionInformation(OrderDetail order){
-//		
-//		Details details = new Details();
-//		details.setShipping(order.getShipping());
-//		details.setSubtotal(order.getOrderPrice());
-//		details.setTax(order.getTax());
-//		
-//		Amount amount = new Amount();
-//		amount.setCurrency("USD");
-//		amount.setTotal(order.getTotalPrice());
-//		amount.setDetails(details);
-//				
-//		Transaction transaction = new Transaction();
-//		transaction.setAmount(amount);
-//		
-//		ItemList itemList = new ItemList();
-//		List<Item> items = new ArrayList<Item>();
-//		
-//		Item item = new Item();
-//		item.setCurrency("USD")
-//		.setName(order.getBookName())
-//		.setPrice(order.getOrderPrice())
-//		.setTax(order.getTax())
-//		.setQuantity("1");
-//		
-//		
-//		items.add(item);
-//		itemList.setItems(items);
-//		transaction.setItemList(itemList);
-//		
-//		List<Transaction> listTransaction = new ArrayList<>();
-//		listTransaction.add(transaction);
-//		
-//		return listTransaction;
-//	}
 	//multiple orders
 	
-public String authorizePayment(ArrayList<OrderDetail> order) throws PayPalRESTException {
+public String authorizePayment(ArrayList<OrderDetail> order, User userDetails) throws PayPalRESTException {
 		
-		Payer payer = getPayerInformation();
+		Payer payer = getPayerInformation(userDetails);
         RedirectUrls redirectUrls = getRedirectUrls();
         List<Transaction> listTransaction = getTransactionInformation(order);
          
@@ -87,7 +33,7 @@ public String authorizePayment(ArrayList<OrderDetail> order) throws PayPalRESTEx
         Payment approvedPayment = requestPayment.create(apiContext);
         return getApprovalLink(approvedPayment);
 	}
-	
+	 	
 	private List<Transaction> getTransactionInformation(ArrayList<OrderDetail> order){
 		List<Transaction> listTransaction = new ArrayList<>();
 		Transaction transaction = new Transaction();
@@ -96,27 +42,44 @@ public String authorizePayment(ArrayList<OrderDetail> order) throws PayPalRESTEx
 		Amount amount = new Amount();
 		
 		
-		double subtotal = 0, shipping=0, tax=0, total=0;
+		double subtotal = 0, shipping=0, tax=0, total=0 ;
+		
 		for (OrderDetail books : order) {
+			int bookCounter = 0,count=0;
+			double sameBookPrice=0,sameBookTax=0;
+			bookCounter = books.getBookCounter();
+			
 			Item item = new Item();
 			amount.setCurrency("USD");
 			item.setCurrency("USD")
 			.setName(books.getBookName())
-			.setPrice(books.getOrderPrice())
-			.setTax(books.getTax())
-			.setQuantity("1");
+			.setQuantity(Integer.toString(bookCounter));
+			// if booklist contains multiple book of the same bookname
+			while (count<bookCounter) {
+				
+				sameBookPrice =  Double.parseDouble(books.getOrderPrice());
+				sameBookTax = Double.parseDouble(books.getTax());
+				
+				subtotal += Double.parseDouble(books.getOrderPrice());
+				shipping += Double.parseDouble(books.getShipping());
+				tax += Double.parseDouble(books.getTax());
+				total += Double.parseDouble(books.getTotalPrice());		
+				
+				count++;
+			}
+			item.setPrice(Double.toString(sameBookPrice))
+			.setTax(Double.toString(sameBookTax));
+
 			items.add(item);			
-			subtotal += Double.parseDouble(books.getOrderPrice());
-			shipping += Double.parseDouble(books.getShipping());
-			tax += Double.parseDouble(books.getTax());
-			total += Double.parseDouble(books.getTotalPrice());			
+			// for whole booklist
+				
 		}
 		Details details = new Details();
-		details.setShipping(Double.toString(shipping));
-		details.setSubtotal(Double.toString(subtotal));
-		details.setTax(Double.toString(tax));
+		details.setShipping(String.format("%.2f", shipping));
+		details.setSubtotal(String.format("%.2f", subtotal));
+		details.setTax(String.format("%.2f", tax));
 		amount.setDetails(details);
-		amount.setTotal(Double.toString(total));
+		amount.setTotal(String.format("%.2f", total));
 		 
 		itemList.setItems(items);
 		transaction.setAmount(amount);
@@ -150,14 +113,22 @@ public String authorizePayment(ArrayList<OrderDetail> order) throws PayPalRESTEx
 		return payment.execute(apiContext, paymentExecution);
 	}
 	
-	private Payer getPayerInformation() {
+	private Payer getPayerInformation(User userDetails) {
+		
 		Payer payer = new Payer();
 		payer.setPaymentMethod("paypal");
 		
+		Address userAddress = new Address();
+		userAddress.setLine1(userDetails.getAddress());
+		userAddress.setPostalCode(userDetails.getPostcode());
+		userAddress.setCountryCode("SG");
+		
 		PayerInfo payerInfo = new PayerInfo();
-		payerInfo.setFirstName("John").setLastName("Tan").setEmail("johntan@gmail.com");
-//		payerInfo.setFirstName(firstName).setLastName(lastName).setEmail(email);
-//		sql statement to get current user's details
+		payerInfo
+		.setFirstName(userDetails.getName())
+		.setLastName(userDetails.getLastname())
+		.setEmail(userDetails.getEmail())
+		.setBillingAddress(userAddress);
 
 		payer.setPayerInfo(payerInfo);
 		

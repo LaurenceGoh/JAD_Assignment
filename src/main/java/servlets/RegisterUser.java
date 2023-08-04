@@ -61,7 +61,7 @@ public class RegisterUser extends HttpServlet {
 					
 					// Select SQL to check for email duplication
 					Class.forName("com.mysql.jdbc.Driver");
-					String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
+					String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
 					Connection conn = DriverManager.getConnection(connURL);
 					String sqlStr = "SELECT * FROM jad_bookstore_db.user WHERE email = ?";
 					PreparedStatement pstmt = conn.prepareStatement(sqlStr);
@@ -92,7 +92,7 @@ public class RegisterUser extends HttpServlet {
 					try {
 						// SQL to insert new account
 						Class.forName("com.mysql.jdbc.Driver");
-						String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
+						String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
 						Connection conn = DriverManager.getConnection(connURL);
 						String sqlStr = "INSERT INTO jad_bookstore_db.user(name, password, birthday, email, address, role) values(?, ?, ?, ?, ?, 'member')";
 						PreparedStatement pstmt = conn.prepareStatement(sqlStr);

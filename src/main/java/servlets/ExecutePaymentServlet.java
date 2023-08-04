@@ -57,7 +57,7 @@ public class ExecutePaymentServlet extends HttpServlet {
 				System.out.println("Book name : " + bookName);
 				
 				Class.forName("com.mysql.jdbc.Driver");
-				String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
+				String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
 				Connection conn = DriverManager.getConnection(connURL);
 				
 //				Retrieving the book Id purchased

@@ -49,6 +49,7 @@
    	session.setAttribute("Name", "public");
 	session.setAttribute("Role", "public");
 	session.setAttribute("loginStatus", "false");
+	session.setAttribute("book",null);
    %>
   <div class="d-flex flex-column min-vh-100">
 <main class="form-signin w-50 py-5 m-auto userInput ">

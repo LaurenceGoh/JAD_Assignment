@@ -25,7 +25,8 @@
 <body>
 <%
 	ArrayList<Book> book = (ArrayList<Book>)session.getAttribute("book");
-	double totalPrice = 0;
+	double totalPrice = 0,shipping=0,gst=0;
+	
 	String bookList="";
 	// If user has already logged in, 
 	String loginStatus = "false";
@@ -49,16 +50,45 @@
 	}
 	
 	try {
-	
+
 		for (Book a:book){
-			System.out.println(a.getTitle());
-			bookList += "<li class=\"list-group-item d-flex justify-content-between lh-sm\">"
-			         +"<div><h6 class=\"my-0\">" + a.getTitle() + "</h6>"
-			         +"<small class=\"text-body-secondar\">" + a.getPublisher() + "</small></div>"
-	      			 +"<span class=\"text-body-secondary\">"+ a.getPrice() +"</span> </li>";
-	    			
-	      	totalPrice += a.getPrice();
+			int bookCounter = 0;
+	      	bookList += "<div class=\"row\">"
+	                +"<div class=\"col-lg-3 col-md-12 mb-4 mb-lg-0\">"
+           + "<div class=\"bg-image hover-overlay hover-zoom ripple rounded\" data-mdb-ripple-color=\"light\">"
+             +" <img src=\"../img/"+a.getImage()+"\"class=\"w-100\" alt=\"Book Image\" />"
+              +"<a href=\"#!\">"
+                +"<div class=\"mask\" style=\"background-color: rgba(251, 251, 251, 0.2)\"></div>"
+              +"</a></div></div>"
+          +"<div class=\"col-lg-5 col-md-6 mb-4 mb-lg-0\">"
+            +"<p><strong>"+a.getTitle()+"</strong></p></div>"
+          +"<div class=\"col-lg-4 col-md-6 mb-4 mb-lg-0\">"
+            +"<div class=\"d-flex mb-4\" style=\"max-width: 300px\">"
+            	
+              +"<button type=\"submit\" name=\"bookButton\" value=\"minus\" class=\"btn btn-primary px-3 me-2\">"
+            		  +"<i class=\"bi bi-dash\"></i></button>"
+               
+
+              +"<div class=\"form-outline\">"
+                +"<input id=\"form1\" min=\"0\" name=\"quantity\" value=\""+a.getBookCounter()+"\" type=\"number\" class=\"form-control\" />"
+                +"<label class=\"form-label\" for=\"form1\">Quantity</label></div>"
+
+              +"<button type=\"submit\" name=\"bookButton\" value=\"add\" class=\"btn btn-primary px-3 ms-2\">"
+                +"<i class=\"bi bi-plus\"></i></button></div></button>"
+            +"<p class=\"text-start text-md-center\"><strong>$"+a.getPrice()+"</strong></p></div></div>";
+             
+           while (bookCounter<a.getBookCounter()){
+        	   totalPrice += a.getPrice();
+        	   
+        	   System.out.println("Subtotal price of " + a.getTitle() + " " + totalPrice);
+        	   bookCounter++;
+           }
+	      	
+                		
+            System.out.println(a.getBookCounter());
 		}
+		shipping += totalPrice*0.1;
+		gst += totalPrice*0.08;
 		session.setAttribute("totalPrice", totalPrice);
 		session.setAttribute("orderedItems",book);
 	} catch(Exception e){
@@ -99,6 +129,7 @@
 							else if (loginStatus.equals("false")) {
 								out.print("<a class=\"nav-link text-white\" href=\"login.jsp\">Login</a>");
 							}
+						session.setAttribute("username", navString);
 						%>
 						</h4>
 					</li>
@@ -108,158 +139,103 @@
 	</nav>
 
 <div class="container">
-  <main>
-    <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4" src="../img/checkout-icon.png" alt="" width="72" height="72">
-      <h2>Checkout form</h2>
-      <p class="lead">Please fill in personal details before continuing for payment.</p>
-    </div>
 
-    <div class="row g-5">
-      <div class="col-md-5 col-lg-4 order-md-last">
-        <h4 class="d-flex justify-content-between align-items-center mb-3">
-          <span class="text-primary">Your cart</span>
-          <span class="badge bg-primary rounded-pill"><%= book.size() %></span>
-        </h4>
-        
-        <!-- start of array book to fill in -->
-        <ul class="list-group mb-3">
-        
-          <%=bookList %>
+  
+ 
+  <section class="h-100 gradient-custom">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center my-4">
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">Cart - <%= book.size() %> items</h5>
+          </div>
+          <div class="card-body">
+            <!-- Single item -->
+            <div class="row">
+           
+           <% if (book.size()==0){
+            	out.println("<p class=\"text-center\">You have no books in your cart.</p>");
+            	out.println("<div class=\"d-grid gap-2 d-md-flex justify-content-center\"><a href=\"index.jsp\" class=\"btn btn-primary btn-block\">Back to shopping</a></div>");
+            }
+            %>
           
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Total (SGD)</span>
-            <strong >$<%= totalPrice %></strong>
-          </li>
-        </ul>
-
-        
+			<form action="addCart.jsp" method="POST">
+           
+            <%= bookList %>
+             </form>
+            </div>
+            
+          </div>
+        </div>
+      
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body">
+            <p><strong>We accept</strong></p>
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+              alt="Visa" />
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+              alt="American Express" />
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+              alt="Mastercard" />
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
+              alt="PayPal acceptance mark" />
+          </div>
+        </div>
       </div>
-      <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">Billing address</h4>
-        <form class="needs-validation" novalidate="" action="<%=request.getContextPath()%>/AuthorizePayment">
-          <div class="row g-3">
-            <div class="col-sm-6">
-              <label for="firstName" class="form-label">First name</label>
-              <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Valid first name is required.
-              </div>
-            </div>
-
-            <div class="col-sm-6">
-              <label for="lastName" class="form-label">Last name</label>
-              <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Valid last name is required.
-              </div>
-            </div>
-
-            <div class="col-12">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" placeholder="you@example.com" value="" required>
-              <div class="invalid-feedback">
-                Please enter a valid email address for shipping updates.
-              </div>
-            </div>
-
-            <div class="col-12">
-              <label for="address" class="form-label">Address</label>
-              <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-              <div class="invalid-feedback">
-                Please enter your shipping address.
-              </div>
-            </div>
-
-            <div class="col-12">
-              <label for="address2" class="form-label">Address 2 <span class="text-body-secondary">(Optional)</span></label>
-              <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-            </div>
-
-            <div class="col-md-7">
-              <label for="country" class="form-label">Country</label>
-              <select class="form-select" id="country" required>
-                <option value="">Choose...</option>
-                <option>Singapore</option>
-                <option>Malaysia</option>
-              </select>
-              <div class="invalid-feedback">
-                Please select a valid country.
-              </div>
-            </div>
-
-            <div class="col-md-5">
-              <label for="zip" class="form-label">Zip</label>
-              <input type="text" class="form-control" id="zip" placeholder="" required>
-              <div class="invalid-feedback">
-                Zip code required.
-              </div>
-            </div>
+      
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">Summary</h5>
           </div>
-
-          <hr class="my-4">
-		
-		
-			<h4 class="mb-3">Payment</h4>
-			<div class="my-3">
-            <div class="form-check">
-              <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
-              <label class="form-check-label" for="credit">Credit card</label>
-            </div>
-            <div class="form-check">
-              <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required="">
-              <label class="form-check-label" for="debit">Debit card</label>
-            </div>
-            <div class="form-check">
-              <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required="">
-              <label class="form-check-label" for="paypal">PayPal</label>
-            </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                Products
+                <span><% out.print(String.format("%.2f",totalPrice)); %></span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                Shipping
+                <span><% out.print(String.format("%.2f",shipping)); %></span>
+              </li>
+               <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                GST (8%)
+                <span><% out.print(String.format("%.2f",gst)); %></span>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                <div>
+                  <strong>Total amount (USD)</strong>
+                </div>
+                <span><strong>$<% out.print(String.format("%.2f",(shipping+totalPrice+gst))); %></strong></span>
+              </li>
+            </ul>
+            
+ 			<form action="<%=request.getContextPath()%>/AuthorizePayment" method="POST">
+ 				<% if(book.size()==0){
+ 				  	out.print("<input type=\"submit\" disabled class=\"btn btn-primary btn-lg btn-block\" value=\"Go to checkout\">");
+ 				} else {
+ 					out.print("<input type=\"submit\" class=\"btn btn-primary btn-lg btn-block\" value=\"Go to checkout\">");
+ 				}
+ 				%>
+			</form>
           </div>
-          <div class="row gy-3">
-            <div class="col-md-6">
-              <label for="cc-name" class="form-label">Name on card</label>
-              <input type="text" class="form-control" id="cc-name" placeholder="" required="">
-              <small class="text-body-secondary">Full name as displayed on card</small>
-              <div class="invalid-feedback">
-                Name on card is required
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <label for="cc-number" class="form-label">Credit card number</label>
-              <input type="text" class="form-control" name="cc-number" placeholder="" required="">
-              <div class="invalid-feedback">
-                Credit card number is required
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <label for="cc-expiration" class="form-label">Expiration</label>
-              <input type="text" class="form-control" name="cc-expiration" placeholder="" required="">
-              <div class="invalid-feedback">
-                Expiration date required
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <label for="cc-cvv" class="form-label">CVV</label>
-              <input type="text" class="form-control" name="cc-cvv" placeholder="" required="">
-              <div class="invalid-feedback">
-                Security code required
-              </div>
-            </div>
-          </div>
-          
-          <hr class="my-4">
-          
-		<div class="btn-toolbar justify-content-center">
-			<input class = "w-45 btn btn-primary btn-lg me-2" type="submit" name="submit" value="Continue to payment">
-		  	<a class="w-45 btn btn-primary btn-lg" href="index.jsp">Continue shopping</a>	
-		</div>
-        </form>
+        </div>
       </div>
     </div>
-  </main>
+  </div>
+  
+  
+  
+</section>
+  
+
 
   <footer class="my-5 pt-5 text-body-secondary text-center text-small">
     <p class="mb-1">© 2017–2023 Company Name</p>
