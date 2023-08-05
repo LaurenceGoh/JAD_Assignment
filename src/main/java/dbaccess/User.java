@@ -1,4 +1,4 @@
-package user;
+package dbaccess;
 
 public class User {
 	private String name,lastname,email,address,postalCode="";

@@ -76,18 +76,30 @@ public class ExecutePaymentServlet extends HttpServlet {
 			for (int a=0;a<items.size();a++) {
 				String bookName = items.get(a).getName();
 				int quantity = Integer.parseInt(items.get(a).getQuantity());
+				int booksQuantity = 0;
 				System.out.println("Book name : " + bookName);
-				
+				System.out.println("Quantity : " + quantity);
 				
 //				Retrieving the book Id purchased
-				String findBookId = "SELECT idbooks,price FROM jad_bookstore_db.books where title = ?";
+				String findBookId = "SELECT idbooks,price,quantity FROM jad_bookstore_db.books where title = ?";
 				pstmt = conn.prepareStatement(findBookId);
 				pstmt.setString(1,bookName);
 				rs = pstmt.executeQuery();
 				if (rs.next()) {
 					bookId = rs.getInt("idbooks");
 					price = rs.getDouble("price");
+					booksQuantity = rs.getInt("quantity");
 				}
+				int newQuantityValue =  booksQuantity-quantity;
+//				Update item Quantity in books table
+				String updateBookQuantity = "UPDATE jad_bookstore_db.books SET quantity = ? , unitsSold = ? WHERE title = ?";
+				pstmt = conn.prepareStatement(updateBookQuantity);
+				pstmt.setInt(1,newQuantityValue);
+				pstmt.setInt(2, quantity);
+				pstmt.setString(3, bookName);
+				int updatedQuantity = pstmt.executeUpdate();
+				System.out.println("Updated books rows :" + updatedQuantity);
+				
 				
 //				Inserting book to orderlist table
 				String insertBookIdToList = "INSERT INTO jad_bookstore_db.orderlist (idbooks,price,orderNo,bookquantity) VALUES (?,?,?,?)";

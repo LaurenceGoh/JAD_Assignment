@@ -73,15 +73,23 @@
 								href="index.jsp">Home</a>
 						</h4>
 					</li>
+					<%
+						if (role.equals("member")) {
+							out.print("<li class=\"nav-item\"><h4><form action=\""+ request.getContextPath()+"/GetPurchaseHistory\" method=\"POST\">"
+									+"<input type=\"submit\" class=\"nav-link text-white\" value=\"Purchase History\"></form></h4>"
+									+"</li>");
+						}
+					session.setAttribute("username",name);
+					%>
 					<li class="nav-item">
 						<h4>
 						<%
 							if (loginStatus.equals("true")){
-								out.print("<a class=\"nav-link text-white\" href=\"ca2/jsp/login.jsp\">Logout</a>");
+								out.print("<a class=\"nav-link text-white\" href=\"login.jsp\">Logout</a>");
 							}
 						
 							else if (loginStatus.equals("false")) {
-								out.print("<a class=\"nav-link text-white\" href=\"ca2/jsp/login.jsp\">Login</a>");
+								out.print("<a class=\"nav-link text-white\" href=\"login.jsp\">Login</a>");
 							}
 						%>
 						</h4>

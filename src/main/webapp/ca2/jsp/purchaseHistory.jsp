@@ -17,7 +17,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<%@page import="java.sql.*, java.util.*,java.text.*, book.Book"%>
+<%@page import="java.sql.*, java.util.*,java.text.*,dbaccess.Book"%>
 </head>
 <body>
 
@@ -153,6 +153,12 @@
 	                  <p>Check your past orders.</p>
 	                </div>   
 	                  <hr class="my-3">
+	                  	<% 
+	                  	if (orderList.size() == 0){
+							out.println("You have no past orders.");	                  	
+	                  	}
+	                  	%>
+	                  
 	                  	<%= orderedContent %>
 	                </div>
 	                
