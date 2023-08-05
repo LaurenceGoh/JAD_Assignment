@@ -41,7 +41,7 @@ public class VerifyUser extends HttpServlet {
 		try {
 			// SQL select check for existing account
 			Class.forName("com.mysql.jdbc.Driver");
-			String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
+			String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
 			Connection conn = DriverManager.getConnection(connURL);
 			String sqlStr = "SELECT * FROM jad_bookstore_db.user WHERE email = ? AND password = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
