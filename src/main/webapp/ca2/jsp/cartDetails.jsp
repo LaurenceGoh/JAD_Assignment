@@ -18,7 +18,7 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <style><%@ include file="/ca2/css/cartDetails.css"%></style>
-<%@page import = "book.Book" %>
+<%@page import = "dbaccess.Book" %>
 <%@page import = "java.util.ArrayList" %>	
 <%@page import="java.sql.*"%>
 </head>
@@ -28,7 +28,7 @@
 <%
 	ArrayList<Book> book = (ArrayList<Book>)session.getAttribute("book");
 	double totalPrice = 0,shipping=0,gst=0;
-	
+	String errMsg = (String) session.getAttribute("errMsg");
 	String bookList="";
 	// If user has already logged in, 
 	String loginStatus = "false";
@@ -119,6 +119,14 @@
 								href="index.jsp">Home</a>
 						</h4>
 					</li>
+					<%
+						if (role.equals("member")) {
+							out.print("<li class=\"nav-item\"><h4><form action=\""+ request.getContextPath()+"/GetPurchaseHistory\" method=\"POST\">"
+									+"<input type=\"submit\" class=\"nav-link text-white\" value=\"Purchase History\"></form></h4>"
+									+"</li>");
+						}
+					session.setAttribute("username",name);
+					%>
 					<li class="nav-item">
 						<h4>
 						<%
@@ -138,12 +146,20 @@
 		</div>
 	</nav>
 
+
+
 <div class="container">
 
   
  
   <section class="h-100 gradient-custom">
   <div class="container py-5">
+	  <%
+		if (errMsg != null){
+			out.println(errMsg);
+		}
+	  session.setAttribute("errMsg","");
+	%>
     <div class="row d-flex justify-content-center my-4">
       <div class="col-md-8">
         <div class="card mb-4">

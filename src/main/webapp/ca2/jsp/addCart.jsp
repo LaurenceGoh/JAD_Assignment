@@ -9,7 +9,7 @@
 <body>
 <%@page import = "java.util.ArrayList" %>
 <%@page import = "java.sql.*" %>
-<%@page import = "book.Book" %>
+<%@page import = "dbaccess.Book" %>
 <%
 	String buttonStatus = request.getParameter("bookButton");
 	try {

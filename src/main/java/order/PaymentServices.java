@@ -4,8 +4,8 @@ import java.util.*;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.*;
 
-import book.Book;
-import user.User;
+import dbaccess.Book;
+import dbaccess.User;
 public class PaymentServices {
 	private static final String CLIENT_ID = "AV9MqXB0H2TNDSf-hNjfQFgs316-vy1wMo6BM8DXTsqWECEBY24mvFX5L3Er34CrW9jMQVCuK7UjTZ36";
 	private static final String CLIENT_SECRET = "EHVACwZfBNVSj-14qfoUsHb01a0TSMk_P5uSoTk04xbmcKDie2Lnad87IJGD7G3riGttmVysnKljKwDf";

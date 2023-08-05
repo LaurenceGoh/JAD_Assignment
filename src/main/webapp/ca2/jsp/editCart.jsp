@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<%@ page import="java.util.*, book.Book" %>
+<%@ page import="java.util.*,dbaccess.Book" %>
 <body>
 	<%
 		ArrayList<Book> book = (ArrayList<Book>)session.getAttribute("book");
