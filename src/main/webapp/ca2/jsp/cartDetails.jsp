@@ -181,9 +181,9 @@
             <img class="me-2" width="45px"
               src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
               alt="Mastercard" />
-            <img class="me-2" width="45px"
-              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
-              alt="PayPal acceptance mark" />
+           <img class="me-2" width="45px" 
+           	  src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.png"
+			  alt="PayPal acceptance mark">
           </div>
         </div>
       </div>
@@ -211,7 +211,7 @@
               <li
                 class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                 <div>
-                  <strong>Total amount (USD)</strong>
+                  <strong>Total amount (SGD)</strong>
                 </div>
                 <span><strong>$<% out.print(String.format("%.2f",(shipping+totalPrice+gst))); %></strong></span>
               </li>

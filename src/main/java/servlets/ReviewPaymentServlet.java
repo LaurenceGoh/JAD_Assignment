@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import order.PaymentServices;
 import com.paypal.api.payments.*;
@@ -33,7 +34,7 @@ public class ReviewPaymentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String paymentID = request.getParameter("paymentId");
 		String payerID = request.getParameter("PayerID");
-		
+		HttpSession session = request.getSession();
 		
 		try {
 			PaymentServices paymentServices = new PaymentServices();
@@ -44,18 +45,21 @@ public class ReviewPaymentServlet extends HttpServlet {
 			Transaction transaction = payment.getTransactions().get(0);
 			ShippingAddress shippingAddress = transaction.getItemList().getShippingAddress();
 			
-			request.setAttribute("payer",payerInfo);
-			request.setAttribute("transaction", transaction);
-			request.setAttribute("shippingAddress",shippingAddress);
+			session.setAttribute("payer",payerInfo);
+			session.setAttribute("transaction", transaction);
+			session.setAttribute("shippingAddress",shippingAddress);
 			
 			String url = "ca2/jsp/review.jsp?paymentId=" + paymentID + "&PayerID=" + payerID;
-			request.getRequestDispatcher(url).forward(request, response);
+//			request.getRequestDispatcher(url).forward(request, response);
+			
+			response.sendRedirect(url);
 			
 		} catch (PayPalRESTException e) {
 			request.setAttribute("errorMessage", "Unable to get payment details.");
 	        System.out.println("error in reviewPayment!!");
 	        e.printStackTrace();
-	        request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
+//	        request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
+	        response.sendRedirect("ca2/jsp/error.jsp");
 		}
 	}
 

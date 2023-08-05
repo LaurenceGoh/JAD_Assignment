@@ -34,7 +34,7 @@ public class GetPurchaseHistory extends HttpServlet {
 		
 		String username = (String) session.getAttribute("username");
 		String bookName ="", author = "", image="";
-		int orderNum = 0,orderCount=1, userId = 0, bookId = 0, bookQuantity =0;
+		int orderNum = 0,orderCount=1, userId = 0, bookId = 0, bookQuantity =0, previousOrderId=0;
 		double purchasedPrice =0;
 		
 		ArrayList<ArrayList<Book>> orderList = new ArrayList<ArrayList<Book>>();
@@ -64,7 +64,7 @@ public class GetPurchaseHistory extends HttpServlet {
 			while (orderCount <= orderNum) {
 				
 				ArrayList<Book> purchasedBooks = new ArrayList<Book>();
-				int  bookQuantityCounter=0;
+				
 				System.out.println("Current order Counter: " + orderCount + "\n");
 				orderNumber.add(orderCount);
 				String getOrderId = "SELECT * FROM jad_bookstore_db.order INNER JOIN jad_bookstore_db.orderlist ON jad_bookstore_db.order.idorder = jad_bookstore_db.orderlist.idorder WHERE jad_bookstore_db.order.iduser = ? AND jad_bookstore_db.order.orderNo = ?";
@@ -72,12 +72,17 @@ public class GetPurchaseHistory extends HttpServlet {
 				pstmt.setInt(1,userId);
 				pstmt.setInt(2, orderCount);
 				rs = pstmt.executeQuery();
-
+				previousOrderId = orderCount;
 				while (rs.next()) {
+					
+					
+					int bookQuantityCounter=0;
 					bookId = rs.getInt("idbooks");
 					purchasedPrice = rs.getDouble("price");
 					orderDate = rs.getTimestamp("dateOrder");
 					bookQuantity = rs.getInt("bookquantity");
+					int orderNo = rs.getInt("orderNo");
+					System.out.println(orderNo);
 					
 					// getting book details
 					String getBookName = "SELECT * from jad_bookstore_db.books where idbooks = ?";
@@ -89,48 +94,35 @@ public class GetPurchaseHistory extends HttpServlet {
 						
 						System.out.println("Retrieved book of title " + bookName);
 
-						
 						author = titleResult.getString("author");
 						image = titleResult.getString("image");
 					}
-					System.out.println(bookName);
 					
 					Book purchasedBook = new Book(bookName,"",0,0,purchasedPrice,image,author,"","","","",bookQuantity,orderDate);
 					// For books that have more than 1 quantity
+					System.out.println("Current book quantity counter: " + bookQuantityCounter);
+
+					System.out.println("Current book quantity: " + bookQuantity);
+					
 					while (bookQuantityCounter < bookQuantity) {
 						purchasedBooks.add(purchasedBook);
 						bookQuantityCounter++;
 					}
-					orderList.add(purchasedBooks);
+					
+					
 					System.out.println("Contents in purchasedBook : " + purchasedBooks + "\n");
+					
+					
 				}
+				orderList.add(purchasedBooks);
 				
 				System.out.println("Contents in orderList : " + orderList + "\n");
 				orderCount++;
+				
+				
 			}
-			
-			
-			
-//			while (rs.next()) {
-//				bookId = rs.getInt("idbooks");
-//				purchasedPrice = rs.getDouble("price");
-//				// getting book details
-//				String getBookName = "SELECT * from jad_bookstore_db.books where idbooks= ?";
-//				PreparedStatement titleStmt = conn.prepareStatement(getBookName);
-//				titleStmt.setInt(1, bookId);
-//				ResultSet titleResult = titleStmt.executeQuery();
-//				if (titleResult.next()) {
-//					bookName = titleResult.getString("title");
-//					author = titleResult.getString("author");
-//					image = titleResult.getString("image");
-//				}
-//				// deal with 1 book
-//				System.out.println(bookName);
-//				orderDate = rs.getTimestamp("dateOrder");
-//				Book purchasedBook = new Book(bookName,"",0,0,purchasedPrice,image,author,"","","","",1,orderDate);
-//				purchasedBooks.add(purchasedBook);
-//				
-//			}
+			// if any arraylist is empty
+			orderList.removeIf(ArrayList::isEmpty);
 			session.setAttribute("orderNumber", orderNumber);
 			session.setAttribute("purchasedBookList",orderList);
 			response.sendRedirect("ca2/jsp/purchaseHistory.jsp");

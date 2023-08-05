@@ -82,24 +82,6 @@ public class AuthorizePaymentServlet extends HttpServlet {
             ex.printStackTrace();
             request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
         }
-
-		
-//		ArrayList<Book> orderedItems = new ArrayList<Book>();
-//		orderedItems.add(new Book("John", "Test", 0, totalPrice, totalPrice, "Image", "Author", "ReleaseDate", "Description", "ISBN", "Publisher"));
-		
-		
-		
-//		try {
-//			 PaymentServices paymentServices = new PaymentServices();
-//	         String approvalLink = paymentServices.authorizePayment(order);
-//	         response.sendRedirect(approvalLink);
-//             
-//        } catch (PayPalRESTException ex) {
-//            request.setAttribute("errorMessage", ex.getMessage());
-//            System.out.println("error!");
-//            ex.printStackTrace();
-//            request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
-//        }
 		
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());

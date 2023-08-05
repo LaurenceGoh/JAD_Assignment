@@ -85,63 +85,72 @@
 			</div>
 		</div>
 	</nav>
-	<h1>Payment Details</h1>
-	<h2>Please confirm your details before paying.</h2>
-	<form action="<%=request.getContextPath()%>/ExecutePayment" method="POST">
-	<input type="hidden" name="username" value="<%=name%>" />
 	
-	<div class="col-md-5 col-lg-4">
-        <h4 class="d-flex justify-content-between align-items-center mb-3">
-          <span class="text-primary">Your cart</span>
-          <span class="badge bg-primary rounded-pill">1</span>
-        </h4>
-        
-        <input type="hidden" name="paymentId" value = "${param.paymentId}">
-        <input type="hidden" name="PayerID" value = "${param.PayerID}">
-        
-        <!-- start of array book to fill in -->
-        <ul class="list-group mb-3">
-       		<li><b>Description</b></li>
-        	 <li class="list-group-item d-flex justify-content-between">
-            <span>Sub Total (SGD)</span>
-            <strong >$ ${transaction.amount.details.subtotal}</strong>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Shipping (SGD)</span>
-            <strong>$ ${transaction.amount.details.shipping}</strong>
-          </li>
-           <li class="list-group-item d-flex justify-content-between">
-            <span>Tax (SGD)</span>
-            <strong >$ ${transaction.amount.details.tax}</strong>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Total (SGD)</span>
-            <strong >$ ${transaction.amount.total}</strong>
-          </li>
-        </ul>
-			<ul>
-			<li><b>Payer Information</b></li>
-				<li class="list-group-item d-flex justify-content-between">
-	            <span>First name:</span>
-	            <strong>${payer.firstName}</strong>
+	<div class="container justify-content-center d-flex">
+		<div>
+		<h1>Payment Details</h1>
+		<h2>Please confirm your details before paying.</h2>
+		
+		<form action="<%=request.getContextPath()%>/ExecutePayment" method="POST">
+		<input type="hidden" name="username" value="<%=name%>" />
+		<div class="flex-fill">
+			<div class="col">
+	        <h4 class="d-flex justify-content-between align-items-center mb-3">
+	          <span class="text-primary">Your cart</span>
+	          <span class="badge bg-primary rounded-pill">1</span>
+	        </h4>
+	        
+	        <input type="hidden" name="paymentId" value = "${param.paymentId}">
+	        <input type="hidden" name="PayerID" value = "${param.PayerID}">
+	        
+	        <!-- start of array book to fill in -->
+	        <ul class="list-group mb-3">
+	       		<li><b>Description</b></li>
+	        	 <li class="list-group-item d-flex justify-content-between">
+	            <span>Sub Total (SGD)</span>
+	            <strong >$ ${transaction.amount.details.subtotal}</strong>
 	          </li>
 	          <li class="list-group-item d-flex justify-content-between">
-	            <span>Last name:</span>
-	            <strong >${payer.lastName}</strong>
+	            <span>Shipping (SGD)</span>
+	            <strong>$ ${transaction.amount.details.shipping}</strong>
+	          </li>
+	           <li class="list-group-item d-flex justify-content-between">
+	            <span>Tax (SGD)</span>
+	            <strong >$ ${transaction.amount.details.tax}</strong>
 	          </li>
 	          <li class="list-group-item d-flex justify-content-between">
-	            <span>Email:</span>
-	            <strong >${payer.email}</strong>
+	            <span>Total (SGD)</span>
+	            <strong >$ ${transaction.amount.total}</strong>
 	          </li>
-	           
-			</ul>
-        
-        
-      </div>
-      <div class="btn-toolbar justify-content-center">
-			<input class = "w-45 btn btn-primary btn-lg me-2" type="submit" name="submit" value="Make payment">
+	        </ul>
+				<ul>
+				<li><b>Payer Information</b></li>
+					<li class="list-group-item d-flex justify-content-between">
+		            <span>First name:</span>
+		            <strong>${payer.firstName}</strong>
+		          </li>
+		          <li class="list-group-item d-flex justify-content-between">
+		            <span>Last name:</span>
+		            <strong >${payer.lastName}</strong>
+		          </li>
+		          <li class="list-group-item d-flex justify-content-between">
+		            <span>Email:</span>
+		            <strong >${payer.email}</strong>
+		          </li>
+		           
+				</ul>
+	      </div>
+	      <div class="btn-toolbar justify-content-center">
+				<input class = "w-45 btn btn-primary btn-lg me-2" type="submit" name="submit" value="Make payment">
+			</div>
+		
 		</div>
-	</form>
+		
+		</form>
+		</div>
+		
+	</div>
+	
 	<script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"

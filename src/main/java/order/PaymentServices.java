@@ -50,8 +50,8 @@ public String authorizePayment(ArrayList<OrderDetail> order, User userDetails) t
 			bookCounter = books.getBookCounter();
 			
 			Item item = new Item();
-			amount.setCurrency("USD");
-			item.setCurrency("USD")
+			amount.setCurrency("SGD");
+			item.setCurrency("SGD")
 			.setName(books.getBookName())
 			.setQuantity(Integer.toString(bookCounter));
 			// if booklist contains multiple book of the same bookname

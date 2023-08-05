@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.paypal.base.rest.*;
 import com.paypal.api.payments.*;
@@ -34,6 +35,9 @@ public class ExecutePaymentServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String paymentId = request.getParameter("paymentId");
 		String payerId = request.getParameter("PayerID");
+		
+		HttpSession session = request.getSession();
+
 		
 		System.out.println(payerId);
 		System.out.println(paymentId);
@@ -146,25 +150,30 @@ public class ExecutePaymentServlet extends HttpServlet {
 			System.out.println("Number of rows updated in user table : " + updatedUserTableRows);
 			
 			conn.close();
-			request.setAttribute("payer",payerInfo);
-			request.setAttribute("transaction", transaction);
+			session.setAttribute("payer",payerInfo);
+			session.setAttribute("transaction", transaction);
 
-			request.getRequestDispatcher("ca2/jsp/receipt.jsp").forward(request,response);
+//			request.getRequestDispatcher("ca2/jsp/receipt.jsp").forward(request,response);
+			response.sendRedirect("ca2/jsp/receipt.jsp");
+			
 		} catch (PayPalRESTException e) {
-			request.setAttribute("errorMessage", e.getMessage());
+			session.setAttribute("errorMessage", e.getMessage());
             System.out.println("error in executePayment!");
             e.printStackTrace();
-            request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
+            response.sendRedirect("ca2/jsp/error.jsp");
+//            request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
 		} catch (ClassNotFoundException e) {
-			request.setAttribute("errorMessage", e.getMessage());
+			session.setAttribute("errorMessage", e.getMessage());
             System.out.println("error in executePayment!");
             e.printStackTrace();
-            request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
+            response.sendRedirect("ca2/jsp/error.jsp");
+//            request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
 		} catch (SQLException e) {
-			request.setAttribute("errorMessage", e.getMessage());
+			session.setAttribute("errorMessage", e.getMessage());
             System.out.println("error in executePayment!");
             e.printStackTrace();
-            request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
+            response.sendRedirect("ca2/jsp/error.jsp");
+//            request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
 		}
 	}
 

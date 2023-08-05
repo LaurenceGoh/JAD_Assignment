@@ -38,7 +38,7 @@
 		loginStatus = session.getAttribute("loginStatus").toString();
 	}
 	
-	if (!role.equals("administrator") && !role.equals("owner") && !role.equals("member")) {
+	if (!role.equals("administrator") && !role.equals("owner") && !role.equals("member") && orderList == null) {
 		response.sendRedirect("login.jsp");
 	}
 	String navString = "";
@@ -59,14 +59,14 @@
 				
 				for (Book bookItem : bookList){
 					orderedContent += "<div class=\"row justify-content-between align-items-center\">"
-		                    +"<div class=\"col-lg-8 col-12\">"
+		                    +"<div class=\"col\">"
 		                    +"<div class=\"d-md-flex\"><div>"
 		                    +"<img src=\"../img/" + bookItem.getImage() +  "\" alt=\"\" class=\"img-4by3-xl rounded mb-3 \"  width=\"100\" height=\"130\"></div>"
 		                    +"<div class=\"ms-md-4 mt-2 mt-lg-0\">"
 							+"<h5 class=\"mb-1\">" + bookItem.getTitle() +"</h5>"
 							+"<span>" + bookItem.getAuthor()+"</span>"     
 		                    +" <div class=\"mt-3\">"
-							+"<h4>$"+String.format("%.2f",bookItem.getPrice()*1.18)+" </h4>USD</div></div></div></div></div>";
+							+"<h4>$"+String.format("%.2f",bookItem.getPrice()*1.18)+" </h4>SGD</div></div></div></div></div>";
 				}
 				orderedContent +=" <hr class=\"my-3\">";
 				counter++;
@@ -128,39 +128,42 @@
 		</div>
 	</nav>
 	
-	<div class="d-flex justify-content-center">
-		<section class="container-fluid p-4">
-        <div class="row ">
-          <div class="col-lg-12 col-md-12 col-12">
-            <!-- Page header -->
-            <div class="border-bottom pb-3 mb-3 ">
-              <div class="mb-2 mb-lg-0">
-                <h1 class="mb-0 h2 fw-bold">Order History </h1>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- row -->
-        <div class="row">
-          <div class="col-xxl-8 col-12">
-            <!-- card -->
-            <div class="card">
-              <!-- card body-->
-              <div class="card-body">
-                <div class="mb-6">
-                  <h4 class="mb-0">Your Order</h4>
-                  <p>Check your past orders.</p>
-                </div>   
-                  <hr class="my-3">
-                  	<% out.println(orderedContent);	 %>
-                </div>
-                
-            
-           
+	<div class=" justify-content-center d-flex">
+		<div>
+			<section class="container-fluid p-4">
+	        <div class="row ">
+	          <div class="col">
+	            <!-- Page header -->
+	            <div class="border-bottom pb-3 mb-3 ">
+	              <div class="mb-2 mb-lg-0">
+	                <h1 class="mb-0 h2 fw-bold">Order History </h1>
+	              </div>
+	            </div>
+	          </div>
 	        </div>
+	        <!-- row -->
+	        <div class="row">
+	          <div class="col">
+	            <!-- card -->
+	            <div class="card">
+	              <!-- card body-->
+	              <div class="card-body">
+	                <div class="mb-6">
+	                  <h4 class="mb-0">Your Order</h4>
+	                  <p>Check your past orders.</p>
+	                </div>   
+	                  <hr class="my-3">
+	                  	<%= orderedContent %>
+	                </div>
+	                
+	            
+	           
+		        </div>
 	        </div>
         </div>
       </section>
+		</div>
+		
 	</div>
 	
 	
