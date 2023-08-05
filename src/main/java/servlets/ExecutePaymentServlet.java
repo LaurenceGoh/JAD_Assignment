@@ -40,8 +40,9 @@ public class ExecutePaymentServlet extends HttpServlet {
 		
 		String username = request.getParameter("username");
 		
-		int bookId = 0, userId = 0, orderId = 0;
+		int bookId = 0, userId = 0, orderId = 0, userOrderNo=0;
 		double price=0;
+		Timestamp orderDate=null;
 		try {
 			PaymentServices paymentServices = new PaymentServices();
 			Payment payment = paymentServices.executePayment(paymentId, payerId);
@@ -49,32 +50,48 @@ public class ExecutePaymentServlet extends HttpServlet {
 			PayerInfo payerInfo = payment.getPayer().getPayerInfo();
 			Transaction transaction = payment.getTransactions().get(0);
 			
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
+			Connection conn = DriverManager.getConnection(connURL);
+			
+			//getting user's order number
+			String findUserOrderNo = "SELECT orderNo from jad_bookstore_db.user WHERE name = ?";
+			PreparedStatement pstmt = conn.prepareStatement(findUserOrderNo);
+			pstmt.setString(1,username);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				userOrderNo = rs.getInt("orderNo");
+				//increment order number 
+				userOrderNo +=1;
+			}
+			System.out.println(userOrderNo);
 			// to get the list of items to be added to sql
 			List <Item> items = (List<Item>) transaction.getItemList().getItems();
 			System.out.println(items);
 			for (int a=0;a<items.size();a++) {
 				String bookName = items.get(a).getName();
+				int quantity = Integer.parseInt(items.get(a).getQuantity());
 				System.out.println("Book name : " + bookName);
 				
-				Class.forName("com.mysql.jdbc.Driver");
-				String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
-				Connection conn = DriverManager.getConnection(connURL);
 				
 //				Retrieving the book Id purchased
 				String findBookId = "SELECT idbooks,price FROM jad_bookstore_db.books where title = ?";
-				PreparedStatement pstmt = conn.prepareStatement(findBookId);
+				pstmt = conn.prepareStatement(findBookId);
 				pstmt.setString(1,bookName);
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next()) {
 					bookId = rs.getInt("idbooks");
 					price = rs.getDouble("price");
 				}
 				
 //				Inserting book to orderlist table
-				String insertBookIdToList = "INSERT INTO jad_bookstore_db.orderlist (idbooks,price) VALUES (?,?)";
+				String insertBookIdToList = "INSERT INTO jad_bookstore_db.orderlist (idbooks,price,orderNo,bookquantity) VALUES (?,?,?,?)";
 				pstmt = conn.prepareStatement(insertBookIdToList, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setInt(1, bookId);
 				pstmt.setDouble(2, price);
+				pstmt.setInt(3, userOrderNo);
+				pstmt.setInt(4, quantity);
 				int updatedRows = pstmt.executeUpdate();
 				System.out.println("Number of rows added to orderlist table : " + updatedRows);
 				
@@ -94,11 +111,23 @@ public class ExecutePaymentServlet extends HttpServlet {
 					userId = rs.getInt("iduser");
 					System.out.println("Retrieved userId of " + userId);
 				}
+				
+//				getting current date;
+				String getOrderedDate = "SELECT CURRENT_TIMESTAMP";
+				pstmt = conn.prepareStatement(getOrderedDate);
+				rs = pstmt.executeQuery();
+				if (rs.next()) {
+					orderDate=rs.getTimestamp("CURRENT_TIMESTAMP");
+					System.out.println(orderDate.toString());
+				}
+				
 //				Inserting orderlist Id & customer's Id to order table
-				String insertOrder = "INSERT INTO jad_bookstore_db.order (iduser,idorder) VALUES (?,?)";
+				String insertOrder = "INSERT INTO jad_bookstore_db.order (iduser,idorder,orderNo,dateOrder) VALUES (?,?,?,?)";
 				pstmt = conn.prepareStatement(insertOrder, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setInt(1, userId);
 				pstmt.setInt(2, orderId);
+				pstmt.setInt(3, userOrderNo);
+				pstmt.setTimestamp(4, orderDate);
 				updatedRows = pstmt.executeUpdate();
 				
 				rs = pstmt.getGeneratedKeys();
@@ -108,6 +137,15 @@ public class ExecutePaymentServlet extends HttpServlet {
 			 	
 			}
 			
+			// update user table's orderNo
+			String updateOrderNo = "UPDATE jad_bookstore_db.user SET orderNo = ? WHERE name = ?";
+			pstmt = conn.prepareStatement(updateOrderNo);
+			pstmt.setInt(1,userOrderNo);
+			pstmt.setString(2, username);
+			int updatedUserTableRows = pstmt.executeUpdate();
+			System.out.println("Number of rows updated in user table : " + updatedUserTableRows);
+			
+			conn.close();
 			request.setAttribute("payer",payerInfo);
 			request.setAttribute("transaction", transaction);
 
@@ -118,11 +156,15 @@ public class ExecutePaymentServlet extends HttpServlet {
             e.printStackTrace();
             request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("errorMessage", e.getMessage());
+            System.out.println("error in executePayment!");
+            e.printStackTrace();
+            request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("errorMessage", e.getMessage());
+            System.out.println("error in executePayment!");
+            e.printStackTrace();
+            request.getRequestDispatcher("ca2/jsp/error.jsp").forward(request, response);
 		}
 	}
 

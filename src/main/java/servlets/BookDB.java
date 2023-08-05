@@ -63,7 +63,7 @@ public class BookDB extends HttpServlet {
 				try {
 					// Uodate SQL
 					Class.forName("com.mysql.jdbc.Driver");
-					String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
+					String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
 					Connection conn = DriverManager.getConnection(connURL);
 					String sqlStr = "UPDATE books SET title = ?, author = ?, rating = ?, price = ?, category = ?, releaseDate = ?, isbnNumber = ?, quantity = ?, publisher = ?, description = ? "
 							+ " WHERE idbooks = ?";
@@ -117,7 +117,7 @@ public class BookDB extends HttpServlet {
 				try {
 					// Insert SQL
 					Class.forName("com.mysql.jdbc.Driver");
-					String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
+					String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
 					Connection conn = DriverManager.getConnection(connURL);
 					String sqlStr = "INSERT INTO jad_bookstore_db.books(title, author, rating, price, category, releaseDate, isbnNumber, quantity, publisher, description) " + 
 					"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -161,7 +161,7 @@ public class BookDB extends HttpServlet {
 				try {
 					// Delete SQL
 					Class.forName("com.mysql.jdbc.Driver");
-					String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
+					String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
 					Connection conn = DriverManager.getConnection(connURL);
 					String sqlStr = "DELETE FROM jad_bookstore_db.books WHERE idbooks = ?";
 					PreparedStatement pstmt = conn.prepareStatement(sqlStr);

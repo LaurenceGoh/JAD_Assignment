@@ -36,7 +36,7 @@
 				Class.forName("com.mysql.jdbc.Driver");
 		
 				// Step 2: Define Connection URL
-				String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=NZRong456&serverTimezone=UTC";
+				String connURL = "jdbc:mysql://localhost/jad_bookstore_db?user=root&password=123456&serverTimezone=UTC";
 		
 				// Step 3: Establish connection to URL
 				Connection conn = DriverManager.getConnection(connURL);
@@ -62,29 +62,8 @@
 					price = rs.getDouble("price");
 					rating = rs.getString("rating");
 					
-					Book newBook = new Book(title,category,quantity,Double.parseDouble(rating),price,image,author,releaseDate,isbnStr,publisher,description,1);
-
-					if (bookList.contains(newBook)){
-						int index = bookList.indexOf(newBook);
-						Book bookEdit = bookList.get(index);
-						// removing product if quantity reaches 0
-						if (buttonStatus.equals("minus")){
-							bookEdit.setBookCounter(bookEdit.getBookCounter()-1);
-							int newIndex = bookEdit.getBookCounter();
-							if (newIndex==0){
-								bookList.remove(bookEdit);
-							}
-						}
-						else {
-							bookEdit.setBookCounter(bookEdit.getBookCounter()+1);	
-						}
-						
-					}
-					else {
-						bookList.add(newBook);
-					}
-					
-					
+					Book newBook = new Book(title,category,quantity,Double.parseDouble(rating),price,image,author,releaseDate,isbnStr,publisher,description,1,null);
+					bookList.add(newBook);
 					session.setAttribute("book",bookList);
 					}
 		

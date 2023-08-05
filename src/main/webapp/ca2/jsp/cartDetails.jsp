@@ -23,6 +23,8 @@
 <%@page import="java.sql.*"%>
 </head>
 <body>
+
+<!-- checkout template taken from https://mdbootstrap.com/docs/standard/extended/shopping-carts/ -->
 <%
 	ArrayList<Book> book = (ArrayList<Book>)session.getAttribute("book");
 	double totalPrice = 0,shipping=0,gst=0;
@@ -50,45 +52,43 @@
 	}
 	
 	try {
-
+		int bookButtonCounter=0;
 		for (Book a:book){
 			int bookCounter = 0;
 	      	bookList += "<div class=\"row\">"
-	                +"<div class=\"col-lg-3 col-md-12 mb-4 mb-lg-0\">"
-           + "<div class=\"bg-image hover-overlay hover-zoom ripple rounded\" data-mdb-ripple-color=\"light\">"
-             +" <img src=\"../img/"+a.getImage()+"\"class=\"w-100\" alt=\"Book Image\" />"
-              +"<a href=\"#!\">"
-                +"<div class=\"mask\" style=\"background-color: rgba(251, 251, 251, 0.2)\"></div>"
-              +"</a></div></div>"
-          +"<div class=\"col-lg-5 col-md-6 mb-4 mb-lg-0\">"
-            +"<p><strong>"+a.getTitle()+"</strong></p></div>"
-          +"<div class=\"col-lg-4 col-md-6 mb-4 mb-lg-0\">"
-            +"<div class=\"d-flex mb-4\" style=\"max-width: 300px\">"
-            	
-              +"<button type=\"submit\" name=\"bookButton\" value=\"minus\" class=\"btn btn-primary px-3 me-2\">"
-            		  +"<i class=\"bi bi-dash\"></i></button>"
-               
-
-              +"<div class=\"form-outline\">"
-                +"<input id=\"form1\" min=\"0\" name=\"quantity\" value=\""+a.getBookCounter()+"\" type=\"number\" class=\"form-control\" />"
-                +"<label class=\"form-label\" for=\"form1\">Quantity</label></div>"
-
-              +"<button type=\"submit\" name=\"bookButton\" value=\"add\" class=\"btn btn-primary px-3 ms-2\">"
-                +"<i class=\"bi bi-plus\"></i></button></div></button>"
-            +"<p class=\"text-start text-md-center\"><strong>$"+a.getPrice()+"</strong></p></div></div>";
-             
+	                	+"<div class=\"col-lg-3 col-md-12 mb-4 mb-lg-0\">"
+           				+"<div class=\"bg-image hover-overlay hover-zoom ripple rounded\" data-mdb-ripple-color=\"light\">"
+             			+"<img src=\"../img/"+a.getImage()+"\"class=\"w-100\" alt=\"Book Image\" />"
+              			+"<a href=\"#!\">"
+                		+"<div class=\"mask\" style=\"background-color: rgba(251, 251, 251, 0.2)\"></div>"
+              			+"</a></div></div>"
+          				+"<div class=\"col-lg-5 col-md-6 mb-4 mb-lg-0\">"
+            			+"<p><strong>"+a.getTitle()+"</strong></p></div>"
+          				+"<div class=\"col-lg-4 col-md-6 mb-4 mb-lg-0\">"
+            			+"<div class=\"d-flex mb-4\" style=\"max-width: 300px\">"
+              			+"<button type=\"submit\" name=\"bookButton"+bookButtonCounter+"\" value=\"minus\" class=\"btn btn-primary px-3 me-2\">"
+            		  	+"<i class=\"bi bi-dash\"></i></button>"
+		               	+"<div class=\"form-outline\">"
+		                +"<input id=\"form1\" min=\"0\" name=\"quantity\" value=\""+a.getBookCounter()+"\" type=\"number\" class=\"form-control\" disabled/>"
+		                +"<label class=\"form-label\" for=\"form1\">Quantity</label></div>"
+						+"<button type=\"submit\" name=\"bookButton"+bookButtonCounter+"\" value=\"add\" class=\"btn btn-primary px-3 ms-2\">"
+			            +"<i class=\"bi bi-plus\"></i></button></div></button>"
+			            +"<p class=\"text-start text-md-center\"><strong>$"+a.getPrice()+"</strong></p></div></div>";
+		                System.out.println("Current bookCounter : " + bookCounter);
+		               
            while (bookCounter<a.getBookCounter()){
+        	   System.out.println(a.getBookCounter());
         	   totalPrice += a.getPrice();
-        	   
         	   System.out.println("Subtotal price of " + a.getTitle() + " " + totalPrice);
-        	   bookCounter++;
+        	   bookCounter++;	
            }
 	      	
-                		
+            bookButtonCounter++;		
             System.out.println(a.getBookCounter());
 		}
 		shipping += totalPrice*0.1;
 		gst += totalPrice*0.08;
+		session.setAttribute("divCounter",book.size());
 		session.setAttribute("totalPrice", totalPrice);
 		session.setAttribute("orderedItems",book);
 	} catch(Exception e){
@@ -154,13 +154,13 @@
             <!-- Single item -->
             <div class="row">
            
-           <% if (book.size()==0){
+           <% if (book.size()==0 || book == null){
             	out.println("<p class=\"text-center\">You have no books in your cart.</p>");
             	out.println("<div class=\"d-grid gap-2 d-md-flex justify-content-center\"><a href=\"index.jsp\" class=\"btn btn-primary btn-block\">Back to shopping</a></div>");
             }
             %>
           
-			<form action="addCart.jsp" method="POST">
+			<form action="editCart.jsp" method="POST">
            
             <%= bookList %>
              </form>

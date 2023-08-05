@@ -57,9 +57,11 @@ public String authorizePayment(ArrayList<OrderDetail> order, User userDetails) t
 			// if booklist contains multiple book of the same bookname
 			while (count<bookCounter) {
 				
+				//for item object
 				sameBookPrice =  Double.parseDouble(books.getOrderPrice());
 				sameBookTax = Double.parseDouble(books.getTax());
 				
+				//for amount object
 				subtotal += Double.parseDouble(books.getOrderPrice());
 				shipping += Double.parseDouble(books.getShipping());
 				tax += Double.parseDouble(books.getTax());

@@ -35,10 +35,6 @@
 		loginStatus = session.getAttribute("loginStatus").toString();
 	}
 	
-	if (!role.equals("administrator") && !role.equals("owner")) {
-		response.sendRedirect("login.jsp");
-	}
-	
 	String navString = "";
 	
 	if (loginStatus.equals("true")) {
@@ -56,11 +52,11 @@
 			<a class="navbar-brand text-white" href=""><%=navString%></a>
 			<%
 				if (role.equals("administrator") || role.equals("owner")) {
-					out.print("<a class=\"navbar-brand text-white\" href=\"admin.jsp\">Admin</a>");
+					out.print("<a class=\"navbar-brand text-white\" href=\"ca2/jsp/admin.jsp\">Admin</a>");
 				}
 			
 				else if (role.equals("member")) {
-					out.print("<a class=\"navbar-brand text-white\" href=\"editUser.jsp\">Account</a>");
+					out.print("<a class=\"navbar-brand text-white\" href=\"ca2/jsp/editUser.jsp\">Account</a>");
 				}
 			%>
 			<button class="navbar-toggler" type="button"
@@ -81,11 +77,11 @@
 						<h4>
 						<%
 							if (loginStatus.equals("true")){
-								out.print("<a class=\"nav-link text-white\" href=\"login.jsp\">Logout</a>");
+								out.print("<a class=\"nav-link text-white\" href=\"ca2/jsp/login.jsp\">Logout</a>");
 							}
 						
 							else if (loginStatus.equals("false")) {
-								out.print("<a class=\"nav-link text-white\" href=\"login.jsp\">Login</a>");
+								out.print("<a class=\"nav-link text-white\" href=\"ca2/jsp/login.jsp\">Login</a>");
 							}
 						%>
 						</h4>
@@ -119,6 +115,7 @@
             <strong >$ ${transaction.amount.total}</strong>
           </li>
         </ul>
+        
 			<ul>
 			<li><b>Payer Information</b></li>
 				<li class="list-group-item d-flex justify-content-between">
@@ -133,10 +130,8 @@
 	            <span>Email:</span>
 	            <strong >${payer.email}</strong>
 	          </li>
-	           
 			</ul>
-        
-        <ul>
+
 	</div>
 
 

@@ -1,5 +1,7 @@
 package book;
 
+import java.sql.Timestamp;
+
 public class Book {
 	
 	
@@ -15,8 +17,8 @@ public class Book {
 	private String description;
 	private String category;
 	private int bookCounter;
-
-	public Book(String title,String category, int quantity, double rating, double price, String image, String author, String releaseDate, String isbnStrNumber, String publisher, String description, int bookCounter) {
+	private Timestamp orderDate;
+	public Book(String title,String category, int quantity, double rating, double price, String image, String author, String releaseDate, String isbnStrNumber, String publisher, String description, int bookCounter, Timestamp orderDate) {
 		this.title = title;
 		this.category = category;
 		this.quantity = quantity;
@@ -29,6 +31,7 @@ public class Book {
 		this.publisher = publisher;
 		this.description = description;
 		this.bookCounter = bookCounter;
+		this.setOrderDate(orderDate);
 	}
 	
 	public int getBookCounter() {
@@ -126,7 +129,7 @@ public class Book {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	// for bookList iteration to check whether book is contained
+	// for bookList iteration to check whether book is contained in book arraylist
 	@Override
     public boolean equals(Object o){
         if(o instanceof Book){
@@ -135,4 +138,12 @@ public class Book {
         } else
              return false;
     }
+
+	public Timestamp getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Timestamp orderDate) {
+		this.orderDate = orderDate;
+	}
 }

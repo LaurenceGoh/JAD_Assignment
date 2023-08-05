@@ -75,10 +75,11 @@
 					</li>
 					<%
 						if (role.equals("member")) {
-							out.print("<li class=\"nav-item\">"
-							+"<a class=\"nav-link text-white\" href=\"purchaseHistory.jsp\">Purchase History</a>"
-							+"</li>");
+							out.print("<li class=\"nav-item\"><h4><form action=\""+ request.getContextPath()+"/GetPurchaseHistory\" method=\"POST\">"
+									+"<input type=\"submit\" class=\"nav-link text-white\" value=\"Purchase History\"></form></h4>"
+									+"</li>");
 						}
+					session.setAttribute("username",name);
 					%>
 					<li class="nav-item">
 						<h4>
